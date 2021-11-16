@@ -1,0 +1,9 @@
+sfdc:
+  username: 'prasad.p.morye@apisero.com'
+  token: '8WKagadJFysFrqhhICtjpbGC'
+  secret:
+    key: "sfdc_passkey"
+    password: "![5ELpDuMUeMy34LdGs1Q/5Q==]"
+
+http:
+  port: "8082"

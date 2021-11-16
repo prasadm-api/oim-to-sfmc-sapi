@@ -1,0 +1,29 @@
+{
+  "configs": [
+    "global-sfmc-sapi.xml",
+    "oim-sfmc-integrate-sfmc-sapi.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:oim-sfmc-integrate-sfmc-sapi:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "application-types.xml",
+        "dev-config.yaml",
+        "examples/sf-input.json",
+        "global-sfmc-sapi.xml",
+        "log4j2.xml",
+        "oim-sfmc-integrate-sfmc-sapi.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="oim-sfmc-integrate-sfmc-sapiFlow" doc:id="13d07d1e-4b12-4c9c-9336-2c94e8986f47" >
+		<http:listener doc:name="POST: /callSFSAPI" doc:id="49ebd8d8-3f7e-4c82-8338-5dfde614d169" path="/callSFSAPI" config-ref="HTTP_Listener_config"/>
+		<logger level="INFO" doc:name="Logger" doc:id="765bf979-b9b7-4dec-ac22-c5b8338c1564" message="Adding data to SF"/>
+		<salesforce:upsert objectType="employee_detail__c" doc:name="Upsert" doc:id="8e33077a-5249-442c-97ed-537281e0a86d" config-ref="Salesforce_Config" externalIdFieldName="employee_id__c">
+			<reconnect frequency="60000" />
+		</salesforce:upsert>
+		<ee:transform doc:name="Transform Message" doc:id="f7d54359-4ab7-4e03-b2ee-d61ed2ac6018" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.items.payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="b593afb7-2faf-4697-8f4e-5a9477d08823" message="#[payload]"/>
+	</flow>
+</mule>

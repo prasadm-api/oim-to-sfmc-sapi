@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<configuration-properties doc:name="Configuration properties" doc:id="4643d15b-9015-48c9-8b3d-72b5c7bb9cba" file="dev-config.yaml" doc:description="Stores details for property PlaceHolders"/>
+	<secure-properties:config name="SFDC_Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="4f1dfaa7-9a6c-4640-9718-56e72d3cef75" file="dev-config.yaml" key="sfdc_passkey" doc:description="Stores details for Encryptions">
+		<secure-properties:encrypt algorithm="Blowfish" mode="ECB" />
+	</secure-properties:config>
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="d561c4f8-1985-4a4d-891a-634898abfbca" doc:description="Configuration for SF ">
+		<salesforce:basic-connection username="${sfdc.username}" password="${secure::sfdc.secret.password}" securityToken="${sfdc.token}" />
+	</salesforce:sfdc-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b23ba5e8-ad92-4642-a8f7-75b39af5f0a9" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<configuration doc:name="Configuration" doc:id="b7c201fb-0b6c-4983-a7e0-d0c35fe79969" defaultErrorHandler-ref="global-sfmc-sapiError_Handler" />
+	<error-handler name="global-sfmc-sapiError_Handler" doc:id="603ca58e-21a5-42fc-bfef-3b2256b1bf28" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d21d78bd-1dd2-4db6-8754-88b2e53b7f74" >
+			<ee:transform doc:name="Error Message" doc:id="5f44ea2d-6b9e-4de0-9191-06efe68702d5" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
+	</error-handler>
+</mule>

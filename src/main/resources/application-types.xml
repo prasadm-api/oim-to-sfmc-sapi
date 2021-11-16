@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="input-payload" format="json">
+      <types:shape format="weave" example="examples/sf-input.json"><![CDATA[%dw 2.0
+
+type input_payload = Array<{|  employee_id__c: String,   employee_first_nm__c: String,   employee_last_nm__c: String,   employee_deprt__c: String,   employee_exp__c: Number {"typeId": "int"},   work_loc__c: String,   contact__c: String,   upd_datetime__c: String|}> {"example": "[{\\\"employee_id__c\\\":\\\"ABC001\\\",\\\"employee_first_nm__c\\\":\\\"Aleshia\\\",\\\"employee_last_nm__c\\\":\\\"Tomkiewicz\\\",\\\"employee_deprt__c\\\":\\\"Admin\\\",\\\"employee_exp__c\\\":5,\\\"work_loc__c\\\":\\\"Kent\\\",\\\"contact__c\\\":\\\"01944-369967\\\",\\\"upd_datetime__c\\\":\\\"2021-11-10T14:20:00\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+</types:mule>
